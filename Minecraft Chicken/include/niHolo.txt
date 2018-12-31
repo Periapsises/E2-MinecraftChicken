@@ -1,0 +1,142 @@
+@name niHolo
+# Name Index Holo
+
+#[
+    
+    Read this to understand how to use the code:
+    
+    NOTE: The commands are made to be used like the E2's basic holo functions.
+    
+    These are the commands available:
+        
+        > To create an hologram:
+        - hCreate(name string)
+        - hCreate(name string,position vector)
+        - hCreate(name string,position vector,scale vector)
+        - hCreate(name string,position vector,scale vector,angle angle)
+        - hCreate(name string,position vector,scale vector,angle angle,color vector)
+        - hCreate(name string,position vector,scale vector,angle angle,color vector,model string)
+        - hCreate(name string,position vector,scale vector,angle angle,color vector,model string,parent entity)
+        - hCreate(name string,position vector,scale vector,angle angle,color vector,model string,parent string)
+        
+        > To manipulate an existing hologram
+        - h(name string)                     > Returns the hologram entity with the corresponding name.
+        - hPos(name string,postion vector)   > Changes the position of the hologram with the corresponding name.
+        - hScale(name string,scale vector)   > Changes the scale of the hologram with the corresponding name.
+        - hAng(name string,angle angle)      > Changes the angle of the hologram with the corresponding name.
+        - hColor(name string,color vector)   > Changes the color of the hologram with the corresponding name.
+        - hModel(name string,model string)   > Changes the model of the hologram with the corresponding name.
+        - hParent(name string,parent entity) > Sets the parent of the hologram with the corresponding name.
+        - hParent(name string,name2 string)  > Sets the parentof the hologram with the corresponding name to the other hologram with the corresponding name.
+    
+    /!\ NOTE: Should not be used with the Holo Core functions, numerical indexes are given automatically.
+]#
+
+@persist Holos:table Index:number
+
+if(first()){
+    
+    Holos = table()
+    Index = 0
+    
+    function void hCreate(Name:string){
+        Holos[Name,number] = Index
+        holoCreate(Index)
+        Index++
+    }
+    function void hCreate(Name:string,Pos:vector){
+        Holos[Name,number] = Index
+        holoCreate(Index,Pos)
+        Index++
+    }
+    function void hCreate(Name:string,Pos:vector,Scale:vector){
+        Holos[Name,number] = Index
+        holoCreate(Index,Pos,Scale)
+        Index++
+    }
+    function void hCreate(Name:string,Pos:vector,Scale:vector,Ang:angle){
+        Holos[Name,number] = Index
+        holoCreate(Index,Pos,Scale,Ang)
+        Index++
+    }
+    function void hCreate(Name:string,Pos:vector,Scale:vector,Ang:angle,Color:vector){
+        Holos[Name,number] = Index
+        holoCreate(Index,Pos,Scale,Ang,Color)
+        Index++
+    }
+    function void hCreate(Name:string,Pos:vector,Scale:vector,Ang:angle,Color:vector,Model:string){
+        Holos[Name,number] = Index
+        holoCreate(Index,Pos,Scale,Ang,Color,Model)
+        Index++
+    }
+    function void hCreate(Name:string,Pos:vector,Scale:vector,Ang:angle,Color:vector,Model:string,Parent:entity){
+        Holos[Name,number] = Index
+        holoCreate(Index,Pos,Scale,Ang,Color,Model)
+        holoParent(Index,Parent)
+        Index++
+    }
+    function void hCreate(Name:string,Pos:vector,Scale:vector,Ang:angle,Color:vector,Alpha:number,Model:string,Parent:string){
+        Holos[Name,number] = Index
+        holoCreate(Index,Pos,Scale,Ang,Color,Model)
+        holoParent(Index,Holos[Parent,number])
+        holoAlpha(Index,Alpha)
+        Index++
+    }
+    function void hCreate(Name:string,Pos:vector,Scale:vector,Ang:angle,Color:vector,Alpha:number,Model:string){
+        Holos[Name,number] = Index
+        holoCreate(Index,Pos,Scale,Ang,Color,Model)
+        holoAlpha(Index,Alpha)
+        Index++
+    }
+    function void hCreate(Name:string,Pos:vector,Scale:vector,Ang:angle,Color:vector,Alpha:number,Model:string,Parent:entity){
+        Holos[Name,number] = Index
+        holoCreate(Index,Pos,Scale,Ang,Color,Model)
+        holoAlpha(Index,Alpha)
+        holoParent(Index,Parent)
+        Index++
+    }
+    
+    function entity h(Name:string){
+        return holoEntity(Holos[Name,number])
+    }
+    
+    function void hPos(Name:string,Pos:vector){
+        holoPos(Holos[Name,number],Pos)
+    }
+    function void hAng(Name:string,Ang:angle){
+        holoAng(Holos[Name,number],Ang)
+    }
+    function void hScale(Name:string,Scale:vector){
+        holoScale(Holos[Name,number],Scale)
+    }
+    function void hColor(Name:string,Color:vector){
+        holoColor(Holos[Name,number],Color)
+    }
+    function void hAlpha(Name:string,Alpha:number){
+        holoAlpha(Holos[Name,number],Alpha)
+    }
+    function void hModel(Name:string,Model:string){
+        holoModel(Holos[Name,number],Model)
+    }
+    function void hParent(Name:string,Parent:entity){
+        holoParent(Holos[Name,number],Parent)
+    }
+    function void hParent(Name:string,Name2:string){
+        holoParent(Holos[Name,number],Holos[Name2,number])
+    }
+    function void hMaterial(Name:string,Material:string){
+        holoMaterial(Holos[Name,number],Material)
+    }
+    function number hIndex(Name:string){
+        return Holos[Name,number]
+    }
+    
+}
+
+# Example:
+#[
+hCreate("MyBaseHolo",entity():pos()) # Creates an holo named "MyBaseHolo" at the entity's position
+hModel("MyBaseHolo","models/props_c17/FurnitureWashingmachine001a.mdl") # Changes the model of the holo named "MyBaseHolo"
+hPos("MyBaseHolo",entity():pos()+vec(0,0,50)) # Changes the position of the holo named "MyBaseHolo"
+hParent("MyBaseHolo",entity()) # Sets the parent of the holo named "MyBaseHolo" to the e2 chip
+]#
